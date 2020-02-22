@@ -1,0 +1,50 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+
+
+.container {
+  width: 800px;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+
+.canvas {
+  display: flex;
+  flex-flow: column;
+  margin: 0;
+  padding: 0;
+}
+
+.container canvas {
+  height: 500px;
+}
+
+.container .legends {
+  padding: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container .legend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px;
+}
+
+.container .legend .rect {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}

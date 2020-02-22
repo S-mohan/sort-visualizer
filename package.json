@@ -1,5 +1,5 @@
 {
-  "name": "sort-gui",
+  "name": "sort-visualizer",
   "version": "0.0.1",
   "description": "",
   "main": "webpack.config.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/S-mohan/sort-gui.git"
+    "url": "git+https://github.com/S-mohan/sort-visualizer.git"
   },
   "author": "smohan <https://smohan.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/S-mohan/sort-gui/issues"
+    "url": "https://github.com/S-mohan/sort-visualizer/issues"
   },
-  "homepage": "https://github.com/S-mohan/sort-gui#readme",
+  "homepage": "https://github.com/S-mohan/sort-visualizer#readme",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
