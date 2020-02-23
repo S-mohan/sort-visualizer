@@ -1,17 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
-  
-  <main class="container">
-    <figure class="canvas">
-      <canvas id="canvas"></canvas>
-    </figure>
-    <button id="nextFrame">下一帧</button>
-  </main>
+
+
+  <article class="container">
+    <main class="row">
+
+      <!-- 选择排序 -->
+      <div class="cell js-sort" data-sort-type="selection">
+        <aside class="head">
+          <h2 class="title">选择排序</h2>
+          <div class="actions">
+            <a class="js-play" role="button">播放</a>
+            <a class="js-next" role="button">下一帧</a>
+          </div>
+        </aside>
+        <figure class="canvas">
+          <canvas></canvas>
+        </figure>
+        <details>
+          <summary>选择排序的工作原理</summary>
+          <div class="answer"></div>
+        </details>
+      </div>
+
+      <!-- 插入排序 -->
+      <div class="cell js-sort" data-sort-type="insertion">
+        <aside class="head">
+          <h2 class="title">插入排序</h2>
+          <div class="actions">
+            <a class="js-play" role="button">播放</a>
+            <a class="js-next" role="button">下一帧</a>
+          </div>
+        </aside>
+        <figure class="canvas">
+          <canvas></canvas>
+        </figure>
+        <details>
+          <summary>插入排序的工作原理</summary>
+          <div class="answer"></div>
+        </details>
+      </div>
+
+      <!-- 冒泡排序 -->
+      <div class="cell">
+        <h2 class="title">冒泡排序</h2>
+        <details>
+          <summary>冒泡排序的工作原理</summary>
+          <div class="answer"></div>
+        </details>
+      </div>
+
+      <!-- 快速排序 -->
+      <div class="cell">
+        <h2 class="title">快速排序</h2>
+        <details>
+          <summary>快速排序的工作原理</summary>
+          <div class="answer"></div>
+        </details>
+      </div>
+
+
+
+
+
+
+    </main>
+
+
+
+
+
+
+
+    <aside class="aside">
+      <h3 class="title">测试数据
+        <a id="refreshTestData">刷新</a>
+      </h3>
+      <ul class="nums" id="numbers"></ul>
+      <h3 class="title">测试数据总数</h3>
+      <div class="range">
+        <input type="range" min="2" step="1" max="30" id="form-size">
+        <span class="current" id="current-size"></span>
+      </div>
+      <h3 class="title">测试数据最小值</h3>
+      <div class="range">
+        <input type="range" min="10" step="1" max="260" id="form-min">
+        <span class="current" id="current-min"></span>
+      </div>
+      <h3 class="title">测试数据最大值</h3>
+      <div class="range">
+        <input type="range" min="10" step="1" max="260" id="form-max">
+        <span class="current" id="current-max"></span>
+      </div>
+    </aside>
+  </article>
+
+
 </body>
 </html>

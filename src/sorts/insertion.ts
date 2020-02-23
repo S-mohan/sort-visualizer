@@ -5,46 +5,24 @@ import Sort from './sort'
 
 
 /**
- * 选择排序
+ * 插入排序
  *
  * @export
- * @class SelectionSort
- * @extends {RenderHelper}
+ * @class InsertionSort
+ * @extends {Sort}
  */
-export default class SelectionSort extends Sort {
+export default class InsertionSort extends Sort {
 
-  /**
-   * 静态排序方法
-   * 
-   * @static
-   * @example
-   * SelectionSort.sort([1, 2, 3])
-   * @param {TRenderData} data
-   * @returns {TRenderData}
-   * @memberof SelectionSort
-   */
   static sort(data: TRenderData): TRenderData {
     const size = data.length
     for (let i = 0; i < size; i++) {
-      let minIndex = i
-      for (let j = i + 1; j < size; j++) {
-        if (data[j] < data[minIndex]) {
-          minIndex = j
-        }
+      for (let j = i; j > 0 && data[j] < data[j - 1]; j--) {
+        RenderHelper.swap(data, j, j - 1)
       }
-      RenderHelper.swap(data, i, minIndex)
     }
     return data
   }
 
-
-  /**
-   * Creates an instance of SelectionSort.
-   * @param {TRenderData} data
-   * @param {Render} [render]
-   * @param {IRenderHooks} [hooks]
-   * @memberof SelectionSort
-   */
   constructor(data: TRenderData, render?: Render, hooks?: IRenderHooks) {
     super(data, render, [
       {
@@ -57,7 +35,7 @@ export default class SelectionSort extends Sort {
       },
       {
         color: RenderHelper.Colors.Current,
-        name: '当前最小值'
+        name: '当前值'
       },
       {
         color: RenderHelper.Colors.CurrentCompared,
@@ -66,30 +44,21 @@ export default class SelectionSort extends Sort {
     ], hooks)
   }
 
-
-  /**
-   * 带渲染排序
-   *
-   * @private
-   * @returns {Generator<Promise<any>>}
-   * @memberof SelectionSort
-   */
   protected *sort(): Generator<Promise<any>> {
     const { data, size } = this
+
     yield this.draw(0, -1, -1)
+
     for (let i = 0; i < size; i++) {
-      let minIndex = i
-      yield this.draw(i, -1, minIndex)
-      for (let j = i + 1; j < size; j++) {
-        yield this.draw(i, j, minIndex)
-        if (data[j] < data[minIndex]) {
-          minIndex = j
-          yield this.draw(i, j, minIndex)
-        }
+      yield this.draw(i, i, - 1)
+      for (let j = i; j > 0 && data[j] < data[j - 1]; j--) {
+        yield this.draw(i + 1, j, j - 1)
+        this.swap(j, j - 1)
+        yield this.draw(i + 1, j - 1, -1)
       }
-      this.swap(i, minIndex)
-      yield this.draw(i + 1, -1, minIndex)
+
     }
+
     yield this.draw(size, -1, -1)
   }
 
@@ -99,12 +68,12 @@ export default class SelectionSort extends Sort {
    *
    * @protected
    * @param {number} sortedIndex
-   * @param {number} currentComparedIndex
    * @param {number} currentMinIndex
+   * @param {number} currentComparedIndex
    * @returns {Promise<any>}
    * @memberof SelectionSort
    */
-  protected draw(sortedIndex: number, currentComparedIndex: number, currentMinIndex: number): Promise<any> {
+  protected draw(sortedIndex: number, currentIndex: number, currentComparedIndex: number): Promise<any> {
     return this.render(this.data, (ctx: CanvasRenderingContext2D, index: number) => {
       if (index < sortedIndex) {
         ctx.fillStyle = RenderHelper.Colors.Sorted
@@ -116,10 +85,9 @@ export default class SelectionSort extends Sort {
         ctx.fillStyle = RenderHelper.Colors.CurrentCompared
       }
 
-      if (index === currentMinIndex) {
+      if (index === currentIndex) {
         ctx.fillStyle = RenderHelper.Colors.Current
       }
     })
   }
-  
 }

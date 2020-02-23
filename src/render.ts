@@ -1,26 +1,23 @@
-type RenderData = Array<number>
 
-interface ILegendItem {
-  color: string,
-  name: string
-}
-
-type legendData = Array<ILegendItem>
-
-// 设备像素比
-const DEVICE_PIXEL_RATIO: number = window.devicePixelRatio
-
-// 元素间距（非固定，会在程序中自动调整）
-const ITEM_GAP: number = 10 * DEVICE_PIXEL_RATIO
-
-// 动画延时
-const ANIMATE_DELAY = 100
+import { DEVICE_PIXEL_RATIO, FONT_SIZE, TLegendData, TRenderData, ITEM_GAP } from './defined'
 
 
+/**
+ * 主渲染引擎
+ *
+ * @export
+ * @class Render
+ */
 export default class Render {
   $canvas: HTMLCanvasElement
   $legend: HTMLElement
   ctx: CanvasRenderingContext2D
+
+  /**
+   * Creates an instance of Render.
+   * @param {HTMLCanvasElement} canvas
+   * @memberof Render
+   */
   constructor(canvas: HTMLCanvasElement) {
     const $legend = document.createElement('div')
     $legend.className = 'legends'
@@ -37,7 +34,14 @@ export default class Render {
     this.ctx = canvas.getContext('2d')
   }
 
-  drawLegend(legends: legendData) {
+
+  /**
+   * 绘制 legend
+   *
+   * @param {TLegendData} legends
+   * @memberof Render
+   */
+  drawLegend(legends: TLegendData) {
     const { $legend } = this
     const htmls = []
     for (let i = 0, len = legends.length; i < len; i++) {
@@ -51,7 +55,14 @@ export default class Render {
   }
 
 
-  draw(data: RenderData, beforeDraw?: Function) {
+  /**
+   * 绘制主面板
+   *
+   * @param {TRenderData} data
+   * @param {Function} [beforeDraw]
+   * @memberof Render
+   */
+  draw(data: TRenderData, beforeDraw?: Function) {
     const { ctx, $canvas } = this
     const size = data.length
     if (!size) {
@@ -60,6 +71,7 @@ export default class Render {
 
     const { width, height } = $canvas
     ctx.clearRect(0, 0, width, height)
+    ctx.font = `${FONT_SIZE}px tabular-nums`
 
     let gap = Math.max(1, ITEM_GAP)
     let perWidth: number = width / size - gap
@@ -71,94 +83,26 @@ export default class Render {
     }
 
     for (let i = 0; i < size; i++) {
-      const item = data[i]
+      const value = data[i]
       const x = i * (perWidth + gap) + gap
-      const h = item * DEVICE_PIXEL_RATIO
+      const h = value * DEVICE_PIXEL_RATIO
       const y = height - h
       beforeDraw && beforeDraw(ctx, i)
       ctx.fillRect(x, y, perWidth, h)
+      // 绘制文本
+      const tW:number = ctx.measureText(value.toString()).width
+      if (tW < perWidth) {
+        
+        let fy:number = y + FONT_SIZE * 1.5
+        const fx:number = x + (perWidth - tW) / 2
+        ctx.fillStyle = 'white'
+        if (h <= 1.5 * FONT_SIZE) {
+          fy = y - FONT_SIZE * .5
+          ctx.fillStyle = 'black'
+        }
+        ctx.fillText(value.toString(), fx, fy)
+
+      }
     }
   }
-}
-
-interface IColors {
-  Default: string
-  Sorted: string
-  Current: string
-  CurrentCompared: string
-}
-
-
-export class RenderHelper {
-  renderInstance: Render
-  legends: legendData
-  autoTimer: NodeJS.Timeout
-  isDone: boolean
-  renderGenerator: Generator<Promise<any>>
-
-
-  constructor(render: Render, legends: legendData) {
-    this.renderInstance = render
-    this.legends = legends
-    setTimeout(() => {
-      this.renderInstance.drawLegend(this.legends)
-    }, 10)
-  }
-
-  static Delay: number = ANIMATE_DELAY
-
-  static Colors: IColors = {
-    Default: '#AAAAAA',
-    Sorted: '#6bc30d',
-    Current: '#FF6600',
-    CurrentCompared: '#2B74E6'
-  }
-
-  protected render(data: Array<number>, beforeDraw: Function) {
-    if (!this.renderInstance) {
-      return Promise.resolve(true)
-    }
-    return new Promise(resolve => {
-      this.renderInstance.draw(data, beforeDraw)
-      resolve(true)
-    })
-  }
-
-
-  public play () {
-    if (this.isDone) {
-      return
-    }
-    const {renderGenerator} = this
-    const { done } = renderGenerator.next()
-    if (done) {
-      this.isDone = true
-      this.pause()
-      return
-    }
-    this.autoTimer = setTimeout(() => {
-      this.play()
-    }, ANIMATE_DELAY)
-  }
-
-  public pause () {
-    clearTimeout(this.autoTimer)
-  }
-
-  public next () {
-    if (this.isDone) {
-      return
-    }
-    this.pause()
-    const {renderGenerator} = this
-    const { done } = renderGenerator.next()
-    if (done) {
-      this.isDone = true
-    }
-  }
-
-
-
-
-
 }

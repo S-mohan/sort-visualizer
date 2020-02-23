@@ -3,31 +3,96 @@
 }
 
 body {
-  padding: 0;
+  color: #314659;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  background-color: #f0f2f5;
   margin: 0;
+  padding: 0;
 }
-
 
 
 .container {
-  width: 800px;
-  overflow: hidden;
-  margin: 20px auto;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.container .aside {
+  width: 340px;
+  flex-shrink: 0;
+  position: static;
+  top: 0;
+  margin-left: 20px;
+  padding: 20px;
+  background-color: white;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  user-select: none;
+  flex: 1;
+}
+
+.cell {
+  padding: 20px;
+  background-color: white;
+}
+
+.cell .head {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid #ebedf0;
 }
 
 
-.canvas {
+.cell .title {
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.cell .head a {
+  display: inline-flex;
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: 1px solid #ebedf0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cell .head a:hover,
+.cell .head a:active {
+  border-color: #1890ff;
+  color: #1890ff;
+  background-color: #e6f7ff;
+}
+
+.cell .head a[disabled] {
+  border-color: #ebedf0;
+  background-color: #fff;
+  opacity: .5;
+  pointer-events: none;
+}
+
+.cell .canvas {
   display: flex;
   flex-flow: column;
   margin: 0;
   padding: 0;
 }
 
-.container canvas {
-  height: 500px;
+.cell .canvas canvas {
+  width: 100%;
+  height: 260px;
+  margin: 20px 0;
 }
 
-.container .legends {
+.cell .legends {
   padding: 0;
   text-align: center;
   display: flex;
@@ -35,16 +100,83 @@ body {
   justify-content: center;
 }
 
-.container .legend {
+.cell .legend {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   margin: 15px;
 }
 
-.container .legend .rect {
+.cell .legend .rect {
   display: inline-flex;
   width: 16px;
   height: 16px;
   margin-right: 10px;
+}
+
+.cell details, 
+.cell details > .answer {
+  padding: 20px 0 0 0;
+}
+
+.aside .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aside .title a {
+  font-size: 14px;
+  font-weight: normal;
+  color: #1890ff;
+  cursor: pointer;
+}
+
+.aside .title a[disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.aside .nums {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aside .nums li {
+  display: inline-flex;
+  padding: 10px 0;
+  border: 1px solid #e6f7ff;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: tabular-nums;
+}
+
+.aside .range {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.aside .range input {
+  flex: 1;
+  cursor: pointer;
+}
+
+.aside .range .current {
+  margin-left: 10px;
+  flex-shrink: 0;
+  width: 80px;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ebedf0;
+  font-size: 16px;
+  height: 40px;
 }
